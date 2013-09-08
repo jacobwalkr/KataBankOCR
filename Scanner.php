@@ -14,7 +14,7 @@ class Scanner
         }
 
         $lineArray = $this->rotateArray($arrangementArray);
-        //print_r($lineArray);
+
         $accountNumberAsArray = array();
 
         foreach ($lineArray as $characterArray)
