@@ -2,27 +2,32 @@
 
 class Scanner
 {
-    public function Scan()
+    public function Scan($filename)
     {
-        $file = file('input.txt');
+        $lines = file($filename);
 
-        $arrangementArray = array();
-
-        foreach ($file as $line)
+        while (count($lines) > 0)
         {
-            $arrangementArray[] = str_split($line, 3);
+            $splice = array_splice($lines, 0, 4);
+
+            $linesSplitIntoThrees = array();
+
+            foreach ($splice as $line)
+            {
+                $linesSplitIntoThrees[] = str_split($line, 3);
+            }
+
+            $charactersSplitIntoRows = $this->rotateArray($linesSplitIntoThrees);
+
+            $accountNumberAsArray = array();
+
+            foreach ($charactersSplitIntoRows as $characterAsArrayOfRows)
+            {
+                $accountNumberAsArray[] = $this->identifyCharacter($characterAsArrayOfRows);
+            }
+
+            echo implode($accountNumberAsArray), "\n";
         }
-
-        $lineArray = $this->rotateArray($arrangementArray);
-
-        $accountNumberAsArray = array();
-
-        foreach ($lineArray as $characterArray)
-        {
-            $accountNumberAsArray[] = $this->identifyCharacter($characterArray);
-        }
-
-        echo implode($accountNumberAsArray);
     }
 
     private function rotateArray($inputArray)
