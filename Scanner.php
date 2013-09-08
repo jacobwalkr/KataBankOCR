@@ -26,7 +26,16 @@ class Scanner
                 $accountNumberAsArray[] = $this->identifyCharacter($characterAsArrayOfRows);
             }
 
-            echo implode($accountNumberAsArray), "\n";
+            $accountNumber = implode($accountNumberAsArray);
+
+            echo $accountNumber;
+
+            if ($this->verifyAccountNumber($accountNumber))
+            {
+                echo " INVALID";
+            }
+
+            echo "\n";
         }
     }
 
@@ -79,5 +88,21 @@ class Scanner
         }
 
         return $this->characterCodeTable[$characterAsCode];
+    }
+
+    private function verifyAccountNumber($accountNumber)
+    {
+        $digitArray = str_split($accountNumber, 1);
+        $reversedDigitArray = array_reverse($digitArray);
+
+        $dotProduct = 0;
+
+        for ($digit = 0; $digit < 9; $digit++)
+        {
+            // Multiplier is the 1-indexed position of the digit
+            $dotProduct += ($digit + 1) * $reversedDigitArray[$digit];
+        }
+
+        return $dotProduct % 11 ? true : false;
     }
 }
